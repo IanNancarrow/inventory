@@ -57,6 +57,10 @@ function item(description, price, stock) {
     this.stock = stock;
 };
 
+//*******Variables*******
+
+var inventory = [];
+
 
 function mainMenu() {
     userPrompt.question("", function(selection) {
@@ -64,20 +68,53 @@ function mainMenu() {
             //exit program
             process.exit();
         } else if (selection == "1") {
-            //view inventory
+            // viewItem();
         } else if (selection == "2") {
-            //modify inventory
+            // modItem();
         } else if (selection == "3") {
-            //add inventory
+            // addItem();
         } else if (selection == "4") {
-            //delete inventory
+            // removeItem();
         } else if (selection == "5") {
-            
+            // searchItem();
         } 
     });
 }
 
+function viewItem() {
+    wipeScreen();
+    sleep(1000);
+    console.log("Store Inventory")
+    for (var i in inventory){
+        console.log(inventory[i].description + ", $" + inventory[i].price ", Stock: " + inventory[i].stock);
+    }
+}
 
+function removeItem() {
+    wipeScreen();
+    sleep(1000);
+    console.log("Choose an item to remove, or enter '0' to return.\n");
+    for (i = 0; i <= inventory.length - 1; i++) {
+                console.log((i+1) + ".) " + inventory[i].name);
+    }
+    userPrompt.question("", (removal) => {
+        if (removal == 0) {
+                mainMenu();
+        } else if ((removal <= inventory.length) && (removal > 0)) {
+            
+            console.log("Removing " + inventory[removal-1].name + ".");
+       
+            inventory.splice(removal-1, 1);
+            userPrompt.question("\nHit Enter to return.", function(entry) {
+                mainMenu();
+            });
+        
+        } else {
+            console.log("Item does not exist! Try again.");
+            removeItem();
+        }
+    }); 
+}
 
 
 
